@@ -6,12 +6,21 @@ class GameScene extends Phaser.Scene {
     preload() {
         // TODO: Replace placeholder assets with locally hosted images to avoid CORS issues and improve reliability.
         // These assets are loaded from an external source and might not always be available or could be changed.
-        this.load.image('player', 'https://www.pngwing.com/en/free-png-yklmb/download'); // Example placeholder
-        this.load.image('bullet', 'https://www.pngwing.com/en/free-png-zkwfP/download'); // Example placeholder
-        this.load.image('enemy', 'https://www.pngwing.com/en/free-png-pccfz/download'); // Example placeholder
+        // Ensure you have player.png, bullet.png, and enemy.png in the 'assets' directory.
+        this.load.image('player', 'assets/player.png');
+        this.load.image('bullet', 'assets/bullet.png');
+        this.load.image('enemy', 'assets/enemy.png');
     }
 
     create() {
+        // Attempt to set willReadFrequently for the main canvas context
+        if (this.game.canvas) {
+            const context = this.game.canvas.getContext('2d');
+            if (context) {
+                context.canvas.willReadFrequently = true;
+            }
+        }
+
         this.player = this.physics.add.sprite(this.game.config.width / 2, this.game.config.height / 2, 'player');
         this.cursors = this.input.keyboard.createCursorKeys();
         this.bullets = this.physics.add.group({
@@ -100,11 +109,6 @@ const config = {
         arcade: {
             gravity: { y: 0 },
             debug: false
-        }
-    },
-    render: {
-        canvasAttributes: {
-            willReadFrequently: true
         }
     },
     scene: [GameScene] // Use the class here
