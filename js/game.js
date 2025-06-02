@@ -8,8 +8,12 @@ class GameScene extends Phaser.Scene {
         // These assets are loaded from an external source and might not always be available or could be changed.
         // Ensure you have player.png, bullet.png, and enemy.png in the 'assets' directory.
         this.load.image('player', 'assets/player.png');
-        this.load.image('bullet', 'assets/bullet.png');
-        this.load.image('enemy', 'assets/enemy.png');
+        this.load.image('bullet', 'assets/bullet.png'); // Will be repurposed or removed later
+        this.load.image('enemy', 'assets/enemy.png');   // Will be repurposed or removed later
+
+        // New scenery assets
+        this.load.image('tree', 'assets/tree.png');
+        this.load.image('water', 'assets/water.png');
     }
 
     create() {
@@ -28,7 +32,7 @@ class GameScene extends Phaser.Scene {
         this.physics.world.setBounds(0, 0, worldWidth, worldHeight);
 
         // Player setup should be before camera follow
-        this.player = this.physics.add.sprite(worldWidth / 2, worldHeight / 2, 'player'); // Start player in center of world
+        this.player = this.physics.add.sprite(600, 450, 'player'); // Start player at (600, 450)
 
         // Setup WASD keys
         this.keyW = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.W);
@@ -54,6 +58,19 @@ class GameScene extends Phaser.Scene {
         // });
         // this.physics.add.collider(this.bullets, this.enemies, this.hitEnemy, null, this);
         // this.physics.add.collider(this.player, this.enemies, this.playerHit, null, this);
+
+        // Add some trees
+        this.add.image(300, 300, 'tree');
+        this.add.image(400, 350, 'tree');
+        this.add.image(350, 400, 'tree');
+
+        // Add a small lake (2x2 tiles)
+        // Assuming water tiles are 32x32 for positioning
+        const waterTileSize = 32;
+        this.add.image(700, 500, 'water');
+        this.add.image(700 + waterTileSize, 500, 'water');
+        this.add.image(700, 500 + waterTileSize, 'water');
+        this.add.image(700 + waterTileSize, 500 + waterTileSize, 'water');
     }
 
     update() {
